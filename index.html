@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#f53f2b">
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="description" content="Portfolio To your site">
+  <meta name="keywords" content="HTML, CSS, JavaScript">
+  <meta name="author" content="Adithya Pai B">
+  <link rel="shortcut icon" href="assets/img/aboutme.png" type="image/x-icon">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@master/devicon.min.css">
+  <script src="https://kit.fontawesome.com/4019246ab4.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <title>Portfolio</title>
+</head>
+<body>
+    <!--Landing div-->
+    <div class="landing">
+      <!--Make sure that the image u add here is a square image and for best performance compress the image -->
+     <div class="img animate__animated animate__slideInDown wow" data-wow-duration="1.5s" data-wow-delay="0.3s"><img src="assets/img/me.png" alt="name photo"></div>  
+   <div class="me animate__animated animate__slideInUp wow" data-wow-duration="1.5s" data-wow-delay="0.3s">
+     <!--Enter your name here-->
+    <section class="shortme"><h2>Shaheryar Shaikh</h2></section>
+    <h3 id="typed"></h3>
+   </div>  
+ </div>
+ <div class="about">
+   <div class="title">Portfolio</div>
+   <div class="card-wrapper">
+     <div class="box box1 animate__animated animate__slideInLeft wow" data-wow-duration="1s" data-wow-delay="0s"><span> <b>About Me</b></span><img src="assets/img/aboutme.png" alt=""><p>Hey I am Shaheryar Shaikh from Mumbai,Maharashtra,India.<br>I am currently pursuing my Bachelors in Computer Science. <br> I am learning Android and I love to make web apps using <b style="color: #f53f2b;">Node JS</b></p><div class="resume"><button>Resume</button></div></div>
+     <div class="box box2 animate__animated animate__slideInUp wow" data-wow-duration="1s" data-wow-delay="0.37s"> <span><b>Skills</b></span>
+    <br> <span> Programing</span>
+     <ul class="mainlist"> 
+       <!--U can use Fontawsome icons here-->
+                         <ul class="sublist"><li class="icon"><i class="devicon-android-plain-wordmark"></i></i></li><li>Android</li></ul>
+                         <ul class="sublist"><li class="icon"><i class="devicon-nodejs-plain"></i></li><li>NodeJS</li></ul>
+                         <ul class="sublist"><li class="icon"><i class="devicon-python-plain-wordmark"></i></li><li>Python</li></ul>
+                         <ul class="sublist"><li class="icon"><i class="devicon-java-plain-wordmark"></i></li><li>Java</li></ul>
+
+     </ul>
+<span>Tools</span>
+<ul class="mainlist"> 
+ <ul class="sublist"><li class="icon"><img src="https://img.icons8.com/windows/32/000000/git.png" alt="git"/></li><li>Git</li></ul>
+ <ul class="sublist"><li class="icon"><img src="https://img.icons8.com/windows/32/000000/github.png" alt="github"/></li><li>Github</li></ul>
+</div>
+     <div class="box box3 animate__animated animate__slideInRight wow" data-wow-duration="1s" data-wow-delay="0.75s"><span>Connect</span>
+    <ul>
+      <!--Enter your profile links here-->
+      <li><a href="https://github.com/shaheryarshaikh1011"><i class="fab fa-github"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/shaheryar-shaikh-0391451a4/"><i class="fab fa-linkedin-in"></i></a></li>
+      <li><a href="mailto:sherishaikh2611@gmail.com"><i class="fas fa-at"></i></a></li>
+      <li><a href="https://www.instagram.com/starkastic.af/"><i class="fab fa-instagram"></i></a></li>
+    </ul>
+    </div>
+   </div>
+   
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+//Enter your specilizations here
+var typed = new Typed("#typed", {
+  strings: ['Programmer', 'website developer', 'Gamer '],
+    typeSpeed: 50,
+    smartBackspace: true,
+    backSpeed: 30,
+    loop: true,
+    showCursor: false,
+  });
+</script>
+<!--Wow js is for aniamtion on scroll-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g==" crossorigin="anonymous"></script>
+<script>
+  new WOW().init();
+</script>
+<div class="footer">Made with ❤️ by <a href="https://github.com/shaheryarshaikh1011">Shaheryar Shaikh</a></div>
+
+</html>
