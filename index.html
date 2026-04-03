@@ -32,18 +32,38 @@
 
     <div class="page-shell">
         <header class="topbar">
-            <a class="brand" href="#home" aria-label="Go to home">
-                <span>SS</span>
-            </a>
-            <nav class="nav" aria-label="Primary">
-                <a class="nav-link" href="#home">Home</a>
-                <a class="nav-link" href="#about">About</a>
-                <a class="nav-link" href="#experience">Experience</a>
-                <a class="nav-link" href="#skills">Skills</a>
-                <a class="nav-link" href="#projects">Projects</a>
-                <a class="nav-link" href="#in-progress">In Progress</a>
-                <a class="nav-link" href="#contact">Contact</a>
-            </nav>
+            <div class="topbar-inner">
+                <a class="brand" href="#home" aria-label="Go to home">
+                    <span class="brand-mark">SS</span>
+                    <span class="brand-copy">
+                        <strong>Shaheryar Shaikh</strong>
+                        <small>Backend-first product engineer</small>
+                    </span>
+                </a>
+                <button
+                    class="nav-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="primary-menu"
+                    aria-label="Open navigation menu"
+                >
+                    <span class="nav-toggle-bar"></span>
+                    <span class="nav-toggle-bar"></span>
+                    <span class="nav-toggle-bar"></span>
+                </button>
+            </div>
+            <div class="nav-panel" id="primary-menu">
+                <nav class="nav" aria-label="Primary">
+                    <a class="nav-link" href="#home">Home</a>
+                    <a class="nav-link" href="#about">About</a>
+                    <a class="nav-link" href="#experience">Experience</a>
+                    <a class="nav-link" href="#skills">Skills</a>
+                    <a class="nav-link" href="#projects">Projects</a>
+                    <a class="nav-link" href="#in-progress">In Progress</a>
+                    <a class="nav-link" href="#contact">Contact</a>
+                </nav>
+                <a class="button button-secondary nav-cta" href="mailto:sherishaikh2611@gmail.com">Let&apos;s Talk</a>
+            </div>
         </header>
 
         <main>
@@ -608,7 +628,6 @@
             <p>Built by Shaheryar Shaikh for teams that care about strong products and stronger engineering.</p>
         </footer>
 
-        <a class="back-to-top" href="#home" aria-label="Back to top">Top</a>
     </div>
 
     <script>
@@ -616,48 +635,141 @@
         const sections = Array.from(document.querySelectorAll("main section[id]"));
         const navLinks = Array.from(document.querySelectorAll(".nav-link"));
         const revealItems = Array.from(document.querySelectorAll(".reveal"));
-        const backToTop = document.querySelector(".back-to-top");
+        const topbar = document.querySelector(".topbar");
+        const navToggle = document.querySelector(".nav-toggle");
+        const navPanel = document.querySelector(".nav-panel");
+        const hashLinks = Array.from(document.querySelectorAll('a[href^="#"]'));
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const mobileMenuQuery = window.matchMedia("(max-width: 720px)");
+        const lastSection = sections[sections.length - 1];
+        let activeSectionId = "";
+        let ticking = false;
+
+        const getHeaderOffset = () => {
+            const styles = getComputedStyle(document.documentElement);
+            const isMobile = window.innerWidth <= 720;
+            const cssVar = isMobile ? "--header-offset-mobile" : "--header-offset-desktop";
+            const fallback = isMobile ? 96 : 122;
+            const cssOffset = parseFloat(styles.getPropertyValue(cssVar)) || fallback;
+            const headerHeight = topbar ? Math.ceil(topbar.getBoundingClientRect().height) : 0;
+            return Math.max(cssOffset, headerHeight + (isMobile ? 24 : 28));
+        };
+
+        const setMenuOpen = (isOpen) => {
+            if (!topbar || !navToggle || !navPanel) {
+                return;
+            }
+
+            topbar.classList.toggle("is-open", isOpen);
+            navToggle.setAttribute("aria-expanded", String(isOpen));
+            navToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+            document.body.classList.toggle("nav-open", isOpen && mobileMenuQuery.matches);
+        };
+
+        const closeMenu = () => setMenuOpen(false);
 
         const setActiveLink = (id) => {
+            if (!id) {
+                return;
+            }
+
+            activeSectionId = id;
+
             navLinks.forEach((link) => {
                 const isActive = link.getAttribute("href") === "#" + id;
                 link.classList.toggle("is-active", isActive);
+
                 if (isActive) {
-                    link.setAttribute("aria-current", "page");
-                    if (window.innerWidth <= 720) {
-                        link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-                    }
+                    link.setAttribute("aria-current", "location");
                 } else {
                     link.removeAttribute("aria-current");
                 }
             });
         };
 
+        const updateActiveSection = () => {
+            if (!sections.length) {
+                return;
+            }
+
+            const scrollPosition = window.scrollY + getHeaderOffset() + 24;
+            let currentSectionId = sections[0].id;
+
+            sections.forEach((section) => {
+                if (scrollPosition >= section.offsetTop) {
+                    currentSectionId = section.id;
+                }
+            });
+
+            if (lastSection && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) {
+                currentSectionId = lastSection.id;
+            }
+
+            if (currentSectionId !== activeSectionId) {
+                setActiveLink(currentSectionId);
+            }
+        };
+
         const updateProgress = () => {
             const scrollTop = window.scrollY;
             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
             const progress = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
-            progressBar.style.width = progress + "%";
-            backToTop.classList.toggle("is-visible", scrollTop > 520);
+
+            if (progressBar) {
+                progressBar.style.width = progress + "%";
+            }
+
+            updateActiveSection();
         };
 
-        if ("IntersectionObserver" in window) {
-            const sectionObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            setActiveLink(entry.target.id);
-                        }
-                    });
-                },
-                {
-                    rootMargin: "-45% 0px -40% 0px",
-                    threshold: 0.1
+        const syncViewportState = () => {
+            if (ticking) {
+                return;
+            }
+
+            ticking = true;
+            window.requestAnimationFrame(() => {
+                updateProgress();
+                ticking = false;
+            });
+        };
+
+        const navigateToSection = (id, { behavior = "smooth", updateHash = true, replaceHash = false } = {}) => {
+            const target = document.getElementById(id);
+            if (!target) {
+                return;
+            }
+
+            const scrollBehavior = prefersReducedMotion.matches ? "auto" : behavior;
+            const targetY = Math.max(target.getBoundingClientRect().top + window.scrollY - getHeaderOffset(), 0);
+
+            setActiveLink(id);
+            closeMenu();
+            window.scrollTo({ top: targetY, behavior: scrollBehavior });
+
+            if (updateHash) {
+                const nextHash = "#" + id;
+                if (replaceHash || window.location.hash !== nextHash) {
+                    history[replaceHash ? "replaceState" : "pushState"](null, "", nextHash);
                 }
-            );
+            }
+        };
 
-            sections.forEach((section) => sectionObserver.observe(section));
+        hashLinks.forEach((link) => {
+            link.addEventListener("click", (event) => {
+                const href = link.getAttribute("href");
+                const targetId = href ? href.slice(1) : "";
 
+                if (!targetId || !document.getElementById(targetId)) {
+                    return;
+                }
+
+                event.preventDefault();
+                navigateToSection(targetId, { replaceHash: window.location.hash === "#" + targetId });
+            });
+        });
+
+        if ("IntersectionObserver" in window) {
             const revealObserver = new IntersectionObserver(
                 (entries, observer) => {
                     entries.forEach((entry) => {
@@ -680,11 +792,63 @@
             revealItems.forEach((item) => item.classList.add("is-visible"));
         }
 
-        setActiveLink("home");
+        if (navToggle && navPanel) {
+            navToggle.addEventListener("click", () => {
+                setMenuOpen(!topbar.classList.contains("is-open"));
+            });
+
+            navPanel.querySelectorAll("a").forEach((link) => {
+                link.addEventListener("click", () => {
+                    if (mobileMenuQuery.matches) {
+                        closeMenu();
+                    }
+                });
+            });
+
+            document.addEventListener("click", (event) => {
+                if (!mobileMenuQuery.matches || !topbar.classList.contains("is-open")) {
+                    return;
+                }
+
+                if (!topbar.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    closeMenu();
+                }
+            });
+        }
+
+        if (window.location.hash) {
+            const initialId = decodeURIComponent(window.location.hash.slice(1));
+            if (document.getElementById(initialId)) {
+                navigateToSection(initialId, { behavior: "auto", updateHash: false });
+            }
+        } else {
+            setActiveLink("home");
+        }
+
         updateProgress();
 
-        window.addEventListener("scroll", updateProgress, { passive: true });
-        window.addEventListener("resize", updateProgress);
+        window.addEventListener("scroll", syncViewportState, { passive: true });
+        window.addEventListener("resize", () => {
+            if (!mobileMenuQuery.matches) {
+                closeMenu();
+            }
+            syncViewportState();
+        });
+        window.addEventListener("hashchange", () => {
+            const nextId = decodeURIComponent(window.location.hash.slice(1));
+
+            if (nextId && document.getElementById(nextId)) {
+                navigateToSection(nextId, { behavior: "auto", updateHash: false });
+            } else {
+                syncViewportState();
+            }
+        });
     </script>
 </body>
 </html>
