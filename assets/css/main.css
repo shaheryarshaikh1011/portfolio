@@ -443,7 +443,7 @@ h1 {
 .profile-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-self: start;
 }
 
 .profile-orbit {
@@ -493,7 +493,7 @@ h1 {
 }
 
 .profile-content {
-  padding: 24px 28px 30px;
+  padding: 16px 28px 30px;
 }
 
 .profile-heading {
@@ -1019,6 +1019,19 @@ h1 {
 
   .metric-value {
     font-size: 1.5rem;
+  }
+
+  .section-intro,
+  .project-impact {
+    display: none;
+  }
+
+  .summary {
+    font-size: 0.96rem;
+  }
+
+  .nav {
+    gap: 6px;
   }
 }
 
