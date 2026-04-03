@@ -117,7 +117,7 @@ select {
   top: 18px;
   z-index: 20;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 18px;
   margin-top: 18px;
@@ -189,30 +189,22 @@ select {
 .nav-link.is-active::before {
   opacity: 1;
   transform: scale(1);
-  border-color: rgba(244, 106, 61, 0.14);
+  border-color: rgba(244, 106, 61, 0.22);
+}
+
+.nav-link.is-active {
+  text-shadow: 0 0 1px rgba(217, 77, 35, 0.22);
+}
+
+.nav-link.is-active::before {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 239, 229, 0.94));
+  box-shadow: 0 10px 22px rgba(244, 106, 61, 0.14);
 }
 
 .nav-link span,
 .nav-link {
   position: relative;
   z-index: 1;
-}
-
-.topbar-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 46px;
-  padding: 0 18px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--primary), #ff9855);
-  color: #fff;
-  font-weight: 800;
-  box-shadow: 0 14px 28px rgba(244, 106, 61, 0.22);
-}
-
-.topbar-cta:hover {
-  transform: translateY(-1px);
 }
 
 .section {
@@ -385,6 +377,35 @@ h1 {
   color: var(--text);
 }
 
+.hero-secondary-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.hero-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.hero-secondary-link::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 0 0 4px rgba(244, 106, 61, 0.12);
+}
+
+.hero-secondary-link:hover {
+  color: var(--primary-deep);
+}
+
 .hero-metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -490,6 +511,12 @@ h1 {
   object-fit: cover;
   border-radius: 30px;
   box-shadow: 0 22px 40px rgba(89, 54, 31, 0.18);
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+}
+
+.profile-card:hover .profile-image-wrap img {
+  transform: scale(1.03);
+  box-shadow: 0 30px 48px rgba(89, 54, 31, 0.22);
 }
 
 .profile-content {
@@ -608,8 +635,31 @@ h1 {
 }
 
 .panel h3,
+.timeline-card h3,
 .project-card h3 {
   font-size: 1.36rem;
+}
+
+.panel h3,
+.contact-link-label,
+.experience-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mini-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(244, 106, 61, 0.16), rgba(245, 185, 113, 0.28));
+  color: var(--primary-deep);
+  font-size: 0.74rem;
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .highlight-panel {
@@ -680,6 +730,41 @@ h1 {
   color: var(--muted);
 }
 
+.experience-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.experience-block {
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(43, 29, 21, 0.08);
+}
+
+.experience-label {
+  color: var(--primary-deep);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.experience-block .detail-list,
+.experience-mobile-points {
+  margin-top: 12px;
+}
+
+.experience-mobile-points {
+  display: none;
+}
+
+.experience-stack {
+  margin-top: 20px;
+}
+
 .tag-row {
   display: flex;
   flex-wrap: wrap;
@@ -743,6 +828,7 @@ h1 {
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.26);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.38s ease, box-shadow 0.38s ease;
 }
 
 .project-visual span {
@@ -831,6 +917,13 @@ h1 {
   border-color: rgba(244, 106, 61, 0.42);
 }
 
+.project-card:hover .project-visual {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 18px 34px rgba(43, 29, 21, 0.14);
+}
+
 .contact-section {
   padding-bottom: 14px;
 }
@@ -879,8 +972,11 @@ h1 {
 }
 
 .contact-links span {
-  display: block;
   font-weight: 800;
+}
+
+.contact-link-label {
+  display: inline-flex;
 }
 
 .contact-links small {
@@ -895,6 +991,34 @@ h1 {
   color: var(--muted);
   text-align: center;
   font-size: 0.95rem;
+}
+
+.back-to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 24;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary), #ff9a57);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 800;
+  box-shadow: 0 18px 34px rgba(244, 106, 61, 0.28);
+  opacity: 0;
+  transform: translateY(18px);
+  pointer-events: none;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .reveal {
@@ -912,15 +1036,6 @@ h1 {
 }
 
 @media (max-width: 1080px) {
-  .topbar {
-    grid-template-columns: auto 1fr;
-  }
-
-  .topbar-cta {
-    grid-column: 1 / -1;
-    justify-self: start;
-  }
-
   .hero,
   .content-grid.two-column,
   .skills-grid,
@@ -938,6 +1053,10 @@ h1 {
 }
 
 @media (max-width: 880px) {
+  .experience-grid {
+    grid-template-columns: 1fr;
+  }
+
   .timeline::before {
     left: 16px;
   }
@@ -970,11 +1089,22 @@ h1 {
   }
 
   .nav {
+    width: 100%;
+    flex-wrap: nowrap;
     justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
   }
 
-  .topbar-cta {
-    width: 100%;
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
   }
 
   .section {
@@ -996,6 +1126,14 @@ h1 {
   .project-visual {
     min-height: 138px;
   }
+
+  .experience-grid {
+    display: none;
+  }
+
+  .experience-mobile-points {
+    display: block;
+  }
 }
 
 @media (max-width: 540px) {
@@ -1011,6 +1149,11 @@ h1 {
   .button,
   .contact-actions .button {
     width: 100%;
+  }
+
+  .hero-secondary-links {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .profile-facts {
@@ -1032,6 +1175,13 @@ h1 {
 
   .nav {
     gap: 6px;
+  }
+
+  .back-to-top {
+    right: 16px;
+    bottom: 16px;
+    min-width: 52px;
+    min-height: 52px;
   }
 }
 
